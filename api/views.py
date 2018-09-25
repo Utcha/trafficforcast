@@ -65,7 +65,7 @@ class get_road_data(GenericAPIView, mixins.ListModelMixin):
         result = RoadData.objects.filter(date__range=(from_date, to_date), start_id=start_id, end_id=end_id)
         #return self.list(request, *args, **kwargs)
         #return HttpResponse(result.values())
-        json_data = serializers.serialize('json', list(result), fields = '__all__')
+        json_data = serializers.serialize('json', result)
         return HttpResponse(json_data, content_type="application/json")
 
 @api_view(['GET', 'POST'])
