@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+import json
 
 from api.models import Post, RoadData
 # Create your views here.
@@ -62,11 +63,10 @@ class get_road_data(GenericAPIView, mixins.ListModelMixin):
         end_id = request.GET.get('end_id')
 
         result = RoadData.objects.filter(date__range=(from_date, to_date), start_id=start_id, end_id=end_id)
-
         #return self.list(request, *args, **kwargs)
         #return HttpResponse(result.values())
-        json_data = serializers.serialize('json', result)
-        return HttpResponse(json_data)
+        json_data = serializers.serialize('json', list(result), fields = '__all__')
+        return HttpResponse(json_data, content_type="application/json")
 
 @api_view(['GET', 'POST'])
 def test_post(request, format=None):
