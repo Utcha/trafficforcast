@@ -16,7 +16,7 @@ Including another URLconf
 import rest_framework_swagger
 from django.contrib import admin
 from django.urls import path
-from api.views import get_all_post, push_post, get_all_road_data
+from api.views import get_all_post, push_post, get_all_road_data, get_road_data
 from api import views
 
 urlpatterns = [
@@ -27,5 +27,6 @@ urlpatterns = [
     path('api/pushPost/', push_post.as_view()),
     path('api/test/', views.test_post),
     path('api/getAllRoadData/', get_all_road_data.as_view()),
+    path('api/getRoadData/', get_road_data.as_view()),
     path('api/saveRoadData/', views.save_road_data),
 ]

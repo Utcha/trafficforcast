@@ -47,10 +47,22 @@ class get_all_road_data(GenericAPIView, mixins.ListModelMixin):
     serializer_class = RoadDataSerializer
 
     def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+class get_road_data(GenericAPIView, mixins.ListModelMixin):
+    queryset = RoadData.objects.all()
+    serializer_class = RoadDataSerializer
+
+    def get(self, request, *args, **kwargs):
         from django.core import serializers
-        result = RoadData.objects.filter(date__range=("20180906", "20180907"))
+
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        start_id = request.GET.get('start_id')
+        end_id = request.GET.get('end_id')
+
+        result = RoadData.objects.filter(date__range=(from_date, to_date), start_id=start_id, end_id=end_id)
+
         #return self.list(request, *args, **kwargs)
         #return HttpResponse(result.values())
         json_data = serializers.serialize('json', result)
